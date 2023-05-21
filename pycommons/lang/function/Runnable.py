@@ -16,3 +16,6 @@ class Runnable:
 
     def run(self):
         pass
+
+    def __call__(self, *args, **kwargs) -> None:
+        self.run()

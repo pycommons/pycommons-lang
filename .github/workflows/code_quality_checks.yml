@@ -3,9 +3,9 @@ name: Code Quality Checks
 
 on:
   push:
-    branches: [main, development]
+    branches: [ main, development ]
   pull_request:
-    branches: [main, development]
+    branches: [ main, development ]
 
 jobs:
   build:
@@ -26,9 +26,9 @@ jobs:
         run: poetry run pytest
 
       - name: Check style with pylint
-        run: poetry run pylint pycommons_lang2/ tests/
+        run: poetry run pylint pycommons/ tests/
       - name: Check format with black
-        run: poetry run black --check pycommons_lang2/ tests/
+        run: poetry run black --check pycommons/ tests/
       - name: Check type hinting with mypy
-        run: poetry run mypy --strict --config-file=mypy.ini pycommons_lang2/
+        run: poetry run mypy --strict --config-file=mypy.ini pycommons/
 

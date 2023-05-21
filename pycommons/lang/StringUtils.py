@@ -1,7 +1,69 @@
-from . import CharUtils, Char, ArrayUtils
+from . import CharUtils, ArrayUtils
+from .bases import Char
 
 
 class StringUtils:
+
+    @classmethod
+    def is_all_lower_case(cls, char_sequence: str):
+        if char_sequence is None:
+            return False
+        else:
+            for char in char_sequence:
+                if not CharUtils.is_lowercase(char):
+                    return False
+            return True
+
+    @classmethod
+    def is_all_upper_case(cls, char_sequence: str):
+        if char_sequence is None:
+            return False
+        else:
+            for char in char_sequence:
+                if not CharUtils.is_uppercase(char):
+                    return False
+            return True
+
+    @classmethod
+    def is_alpha(cls, char_sequence: str):
+        if char_sequence is None:
+            return False
+        else:
+            for char in char_sequence:
+                if not CharUtils.is_letter(char):
+                    return False
+            return True
+
+    @classmethod
+    def is_alphanumeric(cls, char_sequence: str):
+        if char_sequence is None:
+            return False
+        else:
+            for char in char_sequence:
+                if not CharUtils.is_letter_or_digit(char):
+                    return False
+            return True
+
+    @classmethod
+    def is_alphanumeric_space(cls, char_sequence: str):
+        if char_sequence is None:
+            return False
+        else:
+            for char in char_sequence:
+                if not CharUtils.is_letter_or_digit(char) and CharUtils.is_equal(char, CharUtils.ASCII_SPACE):
+                    return False
+            return True
+
+    @classmethod
+    def is_alpha_space(cls, char_sequence: str):
+        if char_sequence is None:
+            return False
+        else:
+            for char in char_sequence:
+                if not CharUtils.is_letter(char) and CharUtils.is_equal(char, CharUtils.ASCII_SPACE):
+                    return False
+            return True
+
     @classmethod
     def is_any_blank(cls, *args: str) -> bool:
         if ArrayUtils.is_empty(args):

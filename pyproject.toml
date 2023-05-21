@@ -24,7 +24,12 @@ python = "^3.7"
 importlib_metadata = "^3.4.0"
 
 [tool.poetry.dev-dependencies]
-mkdocs-material = "^6.1.5"
+mkdocs-material = ">7.0.0"
+mkdocstrings = { version = ">0.18", extras = ["python-legacy"] }
+mkdocs-awesome-pages-plugin = "*"
+markdown-include = "*"
+livereload = "*"
+
 pytest = "^6.0"
 pytest-cov = "^2.10.1"
 
