@@ -6,10 +6,4 @@ from .predicate import Predicate
 from .runnable import Runnable
 from .supplier import Supplier
 
-__all__ = [
-    "Consumer",
-    "Function",
-    "Predicate",
-    "Runnable",
-    "Supplier"
-]
+__all__ = ["Consumer", "Function", "Predicate", "Runnable", "Supplier"]

@@ -23,6 +23,7 @@ class Optional(Generic[_T]):
     See Also
         https://docs.oracle.com/javase/8/docs/api/java/util/Optional.html
     """
+
     _value: _T
 
     def __init__(self, value: TypingOptional[_T]):

@@ -7,11 +7,7 @@ from .arrayutils import ArrayUtils
 from .charutils import CharUtils
 from .objectutils import ObjectUtils
 
-__all__ = [
-    "ArrayUtils",
-    "CharUtils",
-    "ObjectUtils"
-]
+__all__ = ["ArrayUtils", "CharUtils", "ObjectUtils"]
 
 __author__ = "Shashank Sharma"
 __email__ = "shashankrnr32@gmail.com"
