@@ -23,6 +23,11 @@ class CharUtils:
         return char is not None and cls.ASCII_SPACE < char < 127
 
     @classmethod
+    def is_digit(cls, c: Optional[CharType]) -> bool:
+        char: Optional[Char] = cls.to_character(c)
+        return char is not None and char.isdigit()
+
+    @classmethod
     def is_letter(cls, c: Optional[CharType]) -> bool:
         char: Optional[Char] = cls.to_character(c)
         return char is not None and char.isalpha()
@@ -52,6 +57,16 @@ class CharUtils:
         if c is None:
             return None
         return Char(c)
+
+    @classmethod
+    def to_uppercase(cls, c: Optional[CharType]) -> Optional[Char]:
+        char: Optional[Char] = cls.to_character(c)
+        return char.upper() if char else None
+
+    @classmethod
+    def to_lowercase(cls, c: Optional[CharType]) -> Optional[Char]:
+        char: Optional[Char] = cls.to_character(c)
+        return char.lower() if char else None
 
     @classmethod
     def is_equal(cls, c: CharType, other: CharType) -> bool:
