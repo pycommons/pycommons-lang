@@ -1,9 +1,9 @@
 from __future__ import annotations
 
-from .consumer import Consumer
+from .consumer import Consumer, BiConsumer
 from .function import Function
 from .predicate import Predicate
 from .runnable import Runnable
 from .supplier import Supplier
 
-__all__ = ["Consumer", "Function", "Predicate", "Runnable", "Supplier"]
+__all__ = ["BiConsumer", "Consumer", "Function", "Predicate", "Runnable", "Supplier"]

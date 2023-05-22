@@ -6,6 +6,7 @@ from importlib_metadata import PackageNotFoundError, version
 from .arrayutils import ArrayUtils
 from .charutils import CharUtils
 from .objectutils import ObjectUtils
+from .stringutils import StringUtils
 
 __all__ = ["ArrayUtils", "CharUtils", "ObjectUtils"]
 
