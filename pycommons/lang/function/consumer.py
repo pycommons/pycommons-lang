@@ -48,5 +48,5 @@ class BiConsumer(Generic[_T, _U]):
 
         return BiConsumer.of(_impl)
 
-    def __call__(self, /, t: _T, u: _U, *args: Any, **kwargs: Any) -> None:
-        self.accept(args[0], args[1])
+    def __call__(self, t: _T, u: _U, *args: Any, **kwargs: Any) -> None:
+        self.accept(t, u)
