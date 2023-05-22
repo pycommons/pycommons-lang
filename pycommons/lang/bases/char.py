@@ -4,42 +4,47 @@ from typing import TypeVar
 
 
 class Char(int):
-    def __new__(cls, c: CharType):
+    def __new__(cls, c: CharType) -> Char:
+        if c is None:
+            raise ValueError("Illegal Character")
+
         if isinstance(c, Char):
             return super(Char, cls).__new__(cls, int(c))
-        elif isinstance(c, int):
+
+        if isinstance(c, int):
             chr(c)
             return super(Char, cls).__new__(cls, c)
-        else:
-            if len(c) > 1:
-                raise ValueError("Illegal Character")
-            return super(Char, cls).__new__(cls, ord(c))
 
-    def __str__(self):
+        c_str: str = str(c)
+        if len(c_str) > 1:
+            raise ValueError("Illegal Character")
+        return super(Char, cls).__new__(cls, ord(c_str))
+
+    def __str__(self) -> str:
         return chr(int(self))
 
-    def __len__(self):
+    def __len__(self) -> int:
         return 1
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return chr(int(self))
 
-    def __eq__(self, other: CharType):
+    def __eq__(self, other: CharType) -> bool:  # type: ignore
         return int(self) == int(Char(other))
 
-    def __gt__(self, other: CharType):
+    def __gt__(self, other: CharType) -> bool:
         return int(self) > int(Char(other))
 
-    def __ge__(self, other: CharType):
+    def __ge__(self, other: CharType) -> bool:
         return int(self) >= int(Char(other))
 
-    def __lt__(self, other: CharType):
+    def __lt__(self, other: CharType) -> bool:
         return int(self) < int(Char(other))
 
-    def __le__(self, other: CharType):
+    def __le__(self, other: CharType) -> bool:
         return int(self) <= int(Char(other))
 
-    def __hash__(self):
+    def __hash__(self) -> int:
         return hash(int(self))
 
     def isupper(self) -> bool:
