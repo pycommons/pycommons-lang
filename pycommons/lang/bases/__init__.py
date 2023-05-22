@@ -1,2 +1,8 @@
-from .Char import Char, CharType
-from .Optional import Optional
+from .char import Char, CharType
+from .optional import Optional
+
+__all__ = [
+    "Char",
+    "CharType",
+    "Optional"
+]

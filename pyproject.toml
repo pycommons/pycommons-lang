@@ -45,6 +45,7 @@ output-format = "colorized"
 reports = "y"
 include-ids = "yes"
 msg-template = "{msg_id}:{line:3d},{column}: {obj}: {msg}"
+disable = "C0103, C0116, C0114, C0115"
 
 [tool.pytest.ini_options]
 addopts = "--cov=pycommons --cov-branch --cov-report term-missing  -vv --color=yes --cov-fail-under 40"
@@ -53,3 +54,7 @@ python_files = "tests.py test_*.py *_tests.py *Test.py"
 [build-system]
 requires = ["poetry>=0.12"]
 build-backend = "poetry.masonry.api"
+
+[tool.mypy.overrides]
+module = "pycommons.lang"
+implicit_reexport = true

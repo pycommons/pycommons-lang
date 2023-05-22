@@ -5,14 +5,12 @@ _E = TypeVar("_E", Exception, RuntimeError)
 
 
 class ObjectUtils:
-
     @classmethod
     def require_not_none(cls, t: _T, e: Optional[_E] = None) -> None:
         if t is None:
             if e is None:
                 raise ValueError("Object cannot be None")
-            else:
-                raise e
+            raise e
 
     @classmethod
     def get_not_none(cls, t: _T, e: Optional[_E] = None) -> _T:
