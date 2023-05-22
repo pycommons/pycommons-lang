@@ -24,7 +24,7 @@ include = [
 
 [tool.poetry.dependencies]
 python = "^3.7"
-importlib_metadata = "^3.4.0"
+importlib_metadata = "*"
 
 [tool.poetry.dev-dependencies]
 mkdocs-material = ">7.0.0"
