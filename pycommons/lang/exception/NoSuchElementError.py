@@ -1,2 +1,0 @@
-class NoSuchElementError(RuntimeError):
-    pass

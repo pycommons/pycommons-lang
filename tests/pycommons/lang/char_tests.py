@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from pycommons.lang.types import Char
+from pycommons.lang.bases import Char
 
 
 class CharTest(TestCase):
@@ -42,8 +42,8 @@ class CharTest(TestCase):
 
     def test_new_character_with_invalid_string(self):
         with self.assertRaises(ValueError):
-            c: Char = Char("ab")
+            Char("ab")
 
     def test_new_character_with_invalid_int(self):
         with self.assertRaises(ValueError):
-            c: Char = Char(-1)
+            Char(-1)
