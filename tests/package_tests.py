@@ -1,4 +1,4 @@
-"""Test module for pycommons_lang."""
+"""Test module for pycommons-lang."""
 
 from pycommons.lang import __author__, __email__, __version__
 
