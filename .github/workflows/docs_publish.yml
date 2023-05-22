@@ -15,7 +15,7 @@ jobs:
         with:
           python-version: 3.7
       - name: Install Poetry
-        run: pip install mkdocs-material
+        run: pip install poetry
       - name: Install dependencies
         run: poetry update
       - name: Deploy Documentation
