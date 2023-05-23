@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from abc import abstractmethod
 from typing import TypeVar, Callable, Any
 
 _T = TypeVar("_T")
@@ -14,6 +15,7 @@ class Runnable:
 
         return BasicRunnable()
 
+    @abstractmethod
     def run(self) -> None:
         pass
 

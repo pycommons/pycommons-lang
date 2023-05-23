@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from abc import abstractmethod
 from typing import TypeVar, Generic, Callable, Any
 
 from pycommons.lang.objectutils import ObjectUtils
@@ -18,8 +19,19 @@ class Predicate(Generic[_T]):
 
         return BasicPredicate()
 
+    @abstractmethod
     def test(self, value: _T) -> bool:
         pass
 
-    def __call__(self, *args: _T, **kwargs: Any) -> bool:
-        return self.test(args[0])
+    def __call__(self, t: _T, *args: Any, **kwargs: Any) -> bool:
+        return self.test(t)
+
+
+class PassingPredicate(Predicate[_T]):
+    def test(self, value: _T) -> bool:
+        return True
+
+
+class FailingPredicate(Predicate[_T]):
+    def test(self, value: _T) -> bool:
+        return False

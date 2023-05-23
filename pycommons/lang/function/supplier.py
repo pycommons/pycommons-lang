@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from abc import abstractmethod
 from typing import TypeVar, Generic, Callable, Any
 
 _T = TypeVar("_T")
@@ -14,6 +15,7 @@ class Supplier(Generic[_T]):
 
         return BasicSupplier()
 
+    @abstractmethod
     def get(self) -> _T:
         pass
 
