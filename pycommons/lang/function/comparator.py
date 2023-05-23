@@ -1,16 +1,10 @@
 from __future__ import annotations
 
 from abc import abstractmethod
-from typing import TypeVar, Generic, Callable, Any, Protocol
+from typing import TypeVar, Generic, Callable, Any
 
-
-class Comparable(Protocol):
-    def __lt__(self, other: Any) -> bool:
-        ...
-
-
-_T = TypeVar("_T", bound=Comparable)
-_U = TypeVar("_U", bound=Comparable)
+_T = TypeVar("_T")
+_U = TypeVar("_U")
 
 
 class Comparator(Generic[_T, _U]):
@@ -35,7 +29,7 @@ class Comparator(Generic[_T, _U]):
 
 class NaturalOrderComparator(Comparator[_T, _U]):
     def compare_to(self, t: _T, u: _U) -> int:
-        if t < u:
+        if t < u:  # type: ignore
             return -1
         if t == u:
             return 0
@@ -47,7 +41,7 @@ class ReverseOrderComparator(Comparator[_T, _U]):
         self.comparator = comparator
 
     def compare_to(self, t: _T, u: _U) -> int:
-        if t < u:
+        if t < u:  # type: ignore
             return 1
         if t == u:
             return 0
