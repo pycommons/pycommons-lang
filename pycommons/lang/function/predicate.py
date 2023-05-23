@@ -23,6 +23,15 @@ class Predicate(Generic[_T]):
     def test(self, value: _T) -> bool:
         pass
 
+    def negate(self) -> Predicate[_T]:
+        return self.of(lambda _t: not self.test(_t))
+
+    def do_and(self, predicate: Predicate[_T]) -> Predicate[_T]:
+        return self.of(lambda _t: self.test(_t) and predicate.test(_t))
+
+    def do_or(self, predicate: Predicate[_T]) -> Predicate[_T]:
+        return self.of(lambda _t: self.test(_t) or predicate.test(_t))
+
     def __call__(self, t: _T, *args: Any, **kwargs: Any) -> bool:
         return self.test(t)
 

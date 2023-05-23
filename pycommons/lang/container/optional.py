@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Generic, TypeVar, Optional as TypingOptional, Any
+from typing import Generic, TypeVar, Any, Optional
 
 from pycommons.lang.exception import NoSuchElementError
 from pycommons.lang.function.consumer import Consumer
@@ -15,7 +15,7 @@ _U = TypeVar("_U", Any, None)
 _E = TypeVar("_E", RuntimeError, Exception)
 
 
-class Optional(Generic[_T]):
+class OptionalContainer(Generic[_T]):
     """
     Identical implementation of Java's Optional.
     A container object which may or may not contain a non-null value
@@ -26,7 +26,7 @@ class Optional(Generic[_T]):
 
     _value: _T
 
-    def __init__(self, value: TypingOptional[_T]):
+    def __init__(self, value: Optional[_T]):
         self._value = value
 
     def get(self) -> _T:
@@ -52,28 +52,28 @@ class Optional(Generic[_T]):
         else:
             runnable.run()
 
-    def filter(self, predicate: Predicate[_T]) -> Optional[_T]:
+    def filter(self, predicate: Predicate[_T]) -> OptionalContainer[_T]:
         ObjectUtils.require_not_none(predicate)
         if self.is_empty():
             return self
 
-        return self if predicate.test(self._value) else Optional.empty()
+        return self if predicate.test(self._value) else OptionalContainer.empty()
 
-    def map(self, mapper: Function[_T, _U]) -> Optional[_U]:
+    def map(self, mapper: Function[_T, _U]) -> OptionalContainer[_U]:
         ObjectUtils.require_not_none(mapper)
         if self.is_empty():
-            return Optional.empty()
+            return OptionalContainer.empty()
 
-        return Optional.of_nullable(mapper.apply(self._value))
+        return OptionalContainer.of_nullable(mapper.apply(self._value))
 
-    def flat_map(self, mapper: Function[_T, Optional[_U]]) -> Optional[_U]:
+    def flat_map(self, mapper: Function[_T, OptionalContainer[_U]]) -> OptionalContainer[_U]:
         ObjectUtils.require_not_none(mapper)
         if self.is_empty():
-            return Optional.empty()
+            return OptionalContainer.empty()
 
         return ObjectUtils.get_not_none(mapper.apply(self._value))
 
-    def in_turn(self, supplier: Supplier[Optional[_T]]) -> Optional[_T]:
+    def in_turn(self, supplier: Supplier[OptionalContainer[_T]]) -> OptionalContainer[_T]:
         if self.is_present():
             return self
 
@@ -85,7 +85,7 @@ class Optional(Generic[_T]):
     def or_else_get(self, supplier: Supplier[_T]) -> _T:
         return self._value if self.is_present() else supplier.get()
 
-    def or_else_throw(self, supplier: TypingOptional[Supplier[_E]] = None) -> _T:
+    def or_else_throw(self, supplier: Optional[Supplier[_E]] = None) -> _T:
         if self.is_empty():
             if supplier:
                 raise supplier.get()
@@ -93,15 +93,15 @@ class Optional(Generic[_T]):
         return self._value
 
     @classmethod
-    def of(cls, value: _T) -> Optional[_T]:
+    def of(cls, value: _T) -> OptionalContainer[_T]:
         if value is None:
             raise TypeError("Value cannot be None")
         return cls(value)
 
     @classmethod
-    def of_nullable(cls, value: _T) -> Optional[_T]:
+    def of_nullable(cls, value: _T) -> OptionalContainer[_T]:
         return cls(value)
 
     @classmethod
-    def empty(cls) -> Optional[_T]:
+    def empty(cls) -> OptionalContainer[_T]:
         return cls(None)
