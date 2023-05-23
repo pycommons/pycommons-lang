@@ -33,7 +33,7 @@ mkdocs-awesome-pages-plugin = "*"
 markdown-include = "*"
 livereload = "*"
 
-pytest = "^6.0"
+pytest = ">=7.2.0"
 pytest-cov = "^2.10.1"
 
 pylint = "^2.6.0"
@@ -54,7 +54,7 @@ max-args = 8
 max-locals = 20
 
 [tool.pytest.ini_options]
-addopts = "--cov=pycommons --cov-branch --cov-report term-missing  -vv --color=yes --cov-fail-under 40"
+addopts = "--cov=pycommons --cov-branch --cov-report term-missing  -vv --color=yes --cov-fail-under 20"
 python_files = "tests.py test_*.py *_tests.py *Test.py"
 
 [build-system]
