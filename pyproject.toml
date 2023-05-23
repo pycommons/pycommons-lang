@@ -23,7 +23,7 @@ include = [
 ]
 
 [tool.poetry.dependencies]
-python = "^3.7"
+python = "^3.8"
 importlib_metadata = "*"
 
 [tool.poetry.dev-dependencies]
@@ -32,6 +32,7 @@ mkdocstrings = { version = ">0.18", extras = ["python-legacy"] }
 mkdocs-awesome-pages-plugin = "*"
 markdown-include = "*"
 livereload = "*"
+poethepoet = "^0.20.0"
 
 pytest = ">=7.2.0"
 pytest-cov = "^2.10.1"
@@ -46,7 +47,6 @@ line-length = 100
 [tool.pylint.reports]
 output-format = "colorized"
 reports = "y"
-include-ids = "yes"
 msg-template = "{msg_id}:{line:3d},{column}: {obj}: {msg}"
 disable = "C0103, C0116, C0114, C0115, R0801, R0903"
 max-public-methods = 50
@@ -65,3 +65,9 @@ build-backend = "poetry.masonry.api"
 [tool.mypy.overrides]
 module = "pycommons.lang"
 implicit_reexport = true
+
+[tool.poe.tasks]
+test = "pytest"
+lint = "pylint pycommons/ tests/"
+black = "black ."
+mypy = "mypy --strict --config-file=mypy.ini pycommons/"
