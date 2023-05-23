@@ -1,9 +1,9 @@
 import typing
 
-from pycommons.lang.atomic.atomic import Atomic
+from pycommons.lang.container.container import Container
 
 
-class AtomicInteger(Atomic[int]):
+class IntegerContainer(Container[int]):
     def __init__(self, value: int = 0):
         super().__init__(value)
 

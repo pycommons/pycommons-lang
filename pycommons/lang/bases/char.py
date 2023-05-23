@@ -4,7 +4,26 @@ from typing import TypeVar
 
 
 class Char(int):
+    """
+    Defines a class to store a single character. Inherits `int` indicating, the value of
+    the character object holds the Unicode codepoint within the range (0, 65536). The class
+    mimics the methods provided by `str` like `isupper`, `isdigit` indicating the functionality
+    of the `Char` class is similar to that of a String.
+    """
+
     def __new__(cls, c: CharType) -> Char:
+        """
+        Generates a new Char object based on the input provided to the method.
+
+        Args:
+            c: A CharType object which can be a single character String, integer or a Char object
+
+        Raises:
+            ValueError:
+                1. If the input parameter to this method is None
+                2. The input string contains more than 1 character
+                3. The input integer is outside the Unicode character set range (0, 65536)
+        """
         if c is None:
             raise ValueError("Illegal Character")
 
@@ -48,9 +67,21 @@ class Char(int):
         return hash(int(self))
 
     def isupper(self) -> bool:
+        """
+        Determines if the character is an uppercase letter, by converting the code point to
+        str object.
+
+        Returns: True if the character is an uppercase letter, False otherwise
+        """
         return chr(int(self)).isupper()
 
     def islower(self) -> bool:
+        """
+        Determines if the character is a lowercase letter, by converting the code point to
+        str object.
+
+        Returns: True if the character is a lowercase letter, False otherwise
+        """
         return chr(int(self)).islower()
 
     def isalpha(self) -> bool:
@@ -79,3 +110,6 @@ class Char(int):
 
 
 CharType = TypeVar("CharType", Char, int, str, None)
+"""
+Defines the CharType object which can be any of the following, a Char, int, str or a None
+"""

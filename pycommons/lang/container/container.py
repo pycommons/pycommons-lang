@@ -7,7 +7,7 @@ from pycommons.lang.function import Supplier
 _T = TypeVar("_T")
 
 
-class Atomic(Generic[_T], Supplier[Optional[_T]]):
+class Container(Generic[_T], Supplier[Optional[_T]]):
     def get(self) -> Optional[_T]:
         return self._object
 
@@ -27,5 +27,5 @@ class Atomic(Generic[_T], Supplier[Optional[_T]]):
         return old_object
 
     @classmethod
-    def with_none(cls) -> Atomic[Any]:
+    def with_none(cls) -> Container[Any]:
         return cls()

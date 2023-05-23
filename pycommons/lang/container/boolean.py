@@ -2,10 +2,10 @@ from __future__ import annotations
 
 import typing
 
-from pycommons.lang.atomic.atomic import Atomic
+from pycommons.lang.container.container import Container
 
 
-class AtomicBoolean(Atomic[bool]):
+class BooleanContainer(Container[bool]):
     def __init__(self, flag: bool = False):
         super().__init__(flag)
 
@@ -19,11 +19,11 @@ class AtomicBoolean(Atomic[bool]):
         return typing.cast(bool, self.set_and_get(not self.get()))
 
     @classmethod
-    def with_true(cls) -> AtomicBoolean:
+    def with_true(cls) -> BooleanContainer:
         return cls(True)
 
     @classmethod
-    def with_false(cls) -> AtomicBoolean:
+    def with_false(cls) -> BooleanContainer:
         return cls(False)
 
     def get(self) -> bool:

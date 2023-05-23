@@ -1,9 +1,9 @@
 from __future__ import annotations
 
 from abc import abstractmethod
-from typing import Generic, TypeVar, Optional as TypingOptional, Iterator, Any
+from typing import Generic, TypeVar, Iterator, Any, Optional
 
-from pycommons.lang.bases.optional import Optional
+from pycommons.lang.container.optional import OptionalContainer
 from pycommons.lang.function import Predicate, Function, Consumer
 
 _T = TypeVar("_T", bound=Any)
@@ -52,27 +52,22 @@ class Stream(Generic[_T]):
         self,
         consumer: Consumer[_T],
         *,
-        break_before_accept: TypingOptional[Predicate[_T]] = None,
-        break_on_accept: TypingOptional[Predicate[_T]] = None,
-        continue_before_accept: TypingOptional[Predicate[_T]] = None,
+        break_before_accept: Optional[Predicate[_T]] = None,
+        break_on_accept: Optional[Predicate[_T]] = None,
+        continue_before_accept: Optional[Predicate[_T]] = None,
     ) -> None:
         ...
 
+    @abstractmethod
     def peek(
         self,
         consumer: Consumer[_T],
         *,
-        break_before_accept: TypingOptional[Predicate[_T]] = None,
-        break_on_accept: TypingOptional[Predicate[_T]] = None,
-        continue_before_accept: TypingOptional[Predicate[_T]] = None,
+        break_before_accept: Optional[Predicate[_T]] = None,
+        break_on_accept: Optional[Predicate[_T]] = None,
+        continue_before_accept: Optional[Predicate[_T]] = None,
     ) -> Stream[_T]:
-        self.for_each(
-            consumer,
-            break_before_accept=break_before_accept,
-            break_on_accept=break_on_accept,
-            continue_before_accept=continue_before_accept,
-        )
-        return self
+        ...
 
     @abstractmethod
     def count(self) -> int:
@@ -92,6 +87,6 @@ class Stream(Generic[_T]):
 
     @abstractmethod
     def find_first(
-        self, predicate: TypingOptional[Predicate[_T]] = None
-    ) -> Optional[_T]:  # type: ignore
+        self, predicate: Optional[Predicate[_T]] = None
+    ) -> OptionalContainer[_T]:  # type: ignore
         ...
