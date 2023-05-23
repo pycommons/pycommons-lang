@@ -1,7 +1,7 @@
 import itertools
 from typing import TypeVar, Iterator, Optional as TypingOptional
 
-from pycommons.lang.atomic import Atomic
+from pycommons.lang.atomic.atomic import Atomic
 from pycommons.lang.atomic.boolean import AtomicBoolean
 from pycommons.lang.atomic.integer import AtomicInteger
 from pycommons.lang.bases import Optional
@@ -32,7 +32,7 @@ class IteratorStream(Stream[_T]):
         return IteratorStream(_map())
 
     def flat_map(self, mapper: Function[_T, Stream[_R]]) -> Stream[_R]:
-        stream: Stream[_R] = IteratorStream(())
+        stream: Stream[_R] = IteratorStream(iter(()))
 
         for _t in self._iterator:
             stream = stream.chain(mapper.apply(_t))
@@ -46,25 +46,25 @@ class IteratorStream(Stream[_T]):
         return IteratorStream(itertools.chain(self._iterator, stream.iterator()))
 
     def limit(self, max_size: int) -> Stream[_T]:
-        _count = 0
+        _count: AtomicInteger = AtomicInteger()
 
-        def _limiter(_t, _c) -> bool:
-            _c += 1
+        def _limiter(_c: AtomicInteger) -> bool:
+            _c.increment()
             return _c > max_size
 
-        return self.drop_while(Predicate.of(lambda t: _limiter(t, _count)))
+        return self.drop_while(Predicate.of(lambda t: _limiter(_count)))
 
     def skip(self, n: int) -> Stream[_T]:
-        _count = 0
+        _count: AtomicInteger = AtomicInteger()
 
-        def _skipper(_t, _c) -> bool:
-            _c += 1
+        def _skipper(_c: AtomicInteger) -> bool:
+            _c.increment()
             return _c < n
 
-        return self.drop_while(Predicate.of(lambda t: _skipper(t, _count)))
+        return self.drop_while(Predicate.of(lambda t: _skipper(_count)))
 
     def take_while(self, predicate: Predicate[_T]) -> Stream[_T]:
-        def _filter() -> Iterator[_R]:
+        def _filter() -> Iterator[_T]:
             for _t in self._iterator:
                 if predicate.test(_t):
                     yield _t
@@ -72,7 +72,7 @@ class IteratorStream(Stream[_T]):
         return IteratorStream(_filter())
 
     def drop_while(self, predicate: Predicate[_T]) -> Stream[_T]:
-        def _filter() -> Iterator[_R]:
+        def _filter() -> Iterator[_T]:
             for _t in self._iterator:
                 if not predicate.test(_t):
                     yield _t
@@ -83,9 +83,9 @@ class IteratorStream(Stream[_T]):
         self,
         consumer: Consumer[_T],
         *,
-        break_before_accept: Predicate[_T] = None,
-        break_on_accept: Predicate[_T] = None,
-        continue_before_accept: Predicate[_T] = None,
+        break_before_accept: TypingOptional[Predicate[_T]] = None,
+        break_on_accept: TypingOptional[Predicate[_T]] = None,
+        continue_before_accept: TypingOptional[Predicate[_T]] = None,
     ) -> None:
         if break_before_accept is not None and continue_before_accept is not None:
             raise ValueError(
@@ -107,17 +107,17 @@ class IteratorStream(Stream[_T]):
     def count(self) -> int:
         stream_count: AtomicInteger = AtomicInteger()
 
-        def _counter(t: _T, _count: AtomicInteger) -> None:
+        def _counter(_count: AtomicInteger) -> None:
             stream_count.increment()
 
-        self.for_each(Consumer.of(lambda t: _counter(t, stream_count)))
+        self.for_each(Consumer.of(lambda t: _counter(stream_count)))
 
         return stream_count.get()
 
     def any_match(self, predicate: Predicate[_T]) -> bool:
         _match: AtomicBoolean = AtomicBoolean.with_false()
 
-        def _matcher(t: _T, _m: AtomicBoolean):
+        def _matcher(t: _T, _m: AtomicBoolean) -> None:
             if predicate.test(t):
                 _m.true()
 
@@ -131,7 +131,7 @@ class IteratorStream(Stream[_T]):
     def all_match(self, predicate: Predicate[_T]) -> bool:
         _match: AtomicBoolean = AtomicBoolean.with_true()
 
-        def _matcher(t: _T, _m: AtomicBoolean):
+        def _matcher(t: _T, _m: AtomicBoolean) -> None:
             if not predicate.test(t):
                 _m.false()
 
@@ -145,7 +145,7 @@ class IteratorStream(Stream[_T]):
     def none_match(self, predicate: Predicate[_T]) -> bool:
         _match: AtomicBoolean = AtomicBoolean.with_true()
 
-        def _matcher(t: _T, _m: AtomicBoolean):
+        def _matcher(t: _T, _m: AtomicBoolean) -> None:
             if predicate.test(t):
                 _m.false()
 
@@ -154,16 +154,19 @@ class IteratorStream(Stream[_T]):
             break_on_accept=Predicate.of(lambda t: not _match.get()),
         )
 
-        return _match
+        return _match.get()
 
-    def find_first(self, predicate: TypingOptional[Predicate[_T]] = None) -> Optional[_T]:
+    def find_first(
+        self, predicate: TypingOptional[Predicate[_T]] = None
+    ) -> Optional[_T]:  # type: ignore
         if predicate is None:
-            self.find_first(PassingPredicate())
+            return self.find_first(PassingPredicate())
 
         _match: AtomicBoolean = AtomicBoolean.with_false()
         _found: Atomic[TypingOptional[_T]] = Atomic.with_none()
 
-        def _matcher(t: _T, _m: AtomicBoolean, _f: Atomic[TypingOptional[_T]]):
+        def _matcher(t: _T, _m: AtomicBoolean, _f: Atomic[TypingOptional[_T]]) -> None:
+            assert predicate is not None
             if predicate.test(t):
                 _m.true()
                 _f.set(t)

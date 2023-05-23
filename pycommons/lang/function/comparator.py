@@ -1,13 +1,27 @@
 from __future__ import annotations
 
 from abc import abstractmethod
-from typing import TypeVar, Generic
+from typing import TypeVar, Generic, Callable, Any, Protocol
 
-_T = TypeVar("_T")
-_U = TypeVar("_U")
+
+class Comparable(Protocol):
+    def __lt__(self, other: Any) -> bool:
+        ...
+
+
+_T = TypeVar("_T", bound=Comparable)
+_U = TypeVar("_U", bound=Comparable)
 
 
 class Comparator(Generic[_T, _U]):
+    @classmethod
+    def of(cls, comparator: Callable[[_T, _U], int]) -> Comparator[_T, _U]:
+        class BasicComparator(Comparator[_T, _U]):
+            def compare_to(self, t: _T, u: _U) -> int:
+                return comparator(t, u)
+
+        return BasicComparator()
+
     @abstractmethod
     def compare_to(self, t: _T, u: _U) -> int:
         ...
@@ -15,7 +29,7 @@ class Comparator(Generic[_T, _U]):
     def reversed(self) -> Comparator[_T, _U]:
         return ReverseOrderComparator(self)
 
-    def __call__(self, t: _T, u: _U, *args, **kwargs) -> int:
+    def __call__(self, t: _T, u: _U, *args: Any, **kwargs: Any) -> int:
         return self.compare_to(t, u)
 
 
@@ -23,10 +37,9 @@ class NaturalOrderComparator(Comparator[_T, _U]):
     def compare_to(self, t: _T, u: _U) -> int:
         if t < u:
             return -1
-        elif t == u:
+        if t == u:
             return 0
-        else:
-            return 1
+        return 1
 
 
 class ReverseOrderComparator(Comparator[_T, _U]):
@@ -34,8 +47,8 @@ class ReverseOrderComparator(Comparator[_T, _U]):
         self.comparator = comparator
 
     def compare_to(self, t: _T, u: _U) -> int:
-        return self.comparator.compare_to(u, t)
-
-
-class Comparators:
-    NATURAL_ORDER_COMPARATOR: Comparator[_T, _U] = NaturalOrderComparator()
+        if t < u:
+            return 1
+        if t == u:
+            return 0
+        return -1

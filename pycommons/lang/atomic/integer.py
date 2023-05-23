@@ -1,18 +1,20 @@
-from pycommons.lang.atomic import Atomic
+import typing
+
+from pycommons.lang.atomic.atomic import Atomic
 
 
 class AtomicInteger(Atomic[int]):
-    def __init__(self, value=0):
-        super(AtomicInteger, self).__init__(value)
+    def __init__(self, value: int = 0):
+        super().__init__(value)
 
     def add(self, val: int) -> None:
-        return self.set(self.get() + val)
+        self.set(self.get() + val)
 
     def add_and_get(self, val: int) -> int:
-        return self.set_and_get(self.get() + val)
+        return typing.cast(int, self.set_and_get(self.get() + val))
 
     def get_and_add(self, val: int) -> int:
-        return self.get_and_set(self._value + val)
+        return typing.cast(int, self.get_and_set(self.get() + val))
 
     def increment(self) -> None:
         return self.add(1)
@@ -32,20 +34,23 @@ class AtomicInteger(Atomic[int]):
     def get_and_subtract(self, val: int) -> int:
         return self.get_and_add(-val)
 
+    def get(self) -> int:
+        return typing.cast(int, super().get())
+
     def __int__(self) -> int:
         return self.get()
 
-    def __le__(self, other) -> int:
+    def __le__(self, other: int) -> bool:
         return self.get() <= other
 
-    def __lt__(self, other) -> bool:
+    def __lt__(self, other: int) -> bool:
         return self.get() < other
 
-    def __ge__(self, other) -> bool:
+    def __ge__(self, other: int) -> bool:
         return self.get() >= other
 
-    def __gt__(self, other) -> bool:
+    def __gt__(self, other: int) -> bool:
         return self.get() > other
 
-    def __eq__(self, other):
+    def __eq__(self, other: object) -> bool:
         return self.get() == other

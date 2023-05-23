@@ -1,19 +1,18 @@
 from __future__ import annotations
 
 from abc import abstractmethod
-from typing import Generic, TypeVar, Optional as TypingOptional
+from typing import Generic, TypeVar, Optional as TypingOptional, Iterator, Any
 
-from pycommons.lang.bases import Optional
+from pycommons.lang.bases.optional import Optional
 from pycommons.lang.function import Predicate, Function, Consumer
 
-_T = TypeVar("_T")
-_R = TypeVar("_R")
+_T = TypeVar("_T", bound=Any)
+_R = TypeVar("_R", bound=Any)
 
 
 class Stream(Generic[_T]):
-
     @abstractmethod
-    def iterator(self):
+    def iterator(self) -> Iterator[_T]:
         ...
 
     @abstractmethod
@@ -53,9 +52,9 @@ class Stream(Generic[_T]):
         self,
         consumer: Consumer[_T],
         *,
-        break_before_accept: Predicate[_T] = None,
-        break_on_accept: Predicate[_T] = None,
-        continue_before_accept: Predicate[_T] = None,
+        break_before_accept: TypingOptional[Predicate[_T]] = None,
+        break_on_accept: TypingOptional[Predicate[_T]] = None,
+        continue_before_accept: TypingOptional[Predicate[_T]] = None,
     ) -> None:
         ...
 
@@ -63,9 +62,9 @@ class Stream(Generic[_T]):
         self,
         consumer: Consumer[_T],
         *,
-        break_before_accept: Predicate[_T] = None,
-        break_on_accept: Predicate[_T] = None,
-        continue_before_accept: Predicate[_T] = None,
+        break_before_accept: TypingOptional[Predicate[_T]] = None,
+        break_on_accept: TypingOptional[Predicate[_T]] = None,
+        continue_before_accept: TypingOptional[Predicate[_T]] = None,
     ) -> Stream[_T]:
         self.for_each(
             consumer,
@@ -92,5 +91,7 @@ class Stream(Generic[_T]):
         ...
 
     @abstractmethod
-    def find_first(self, predicate: TypingOptional[Predicate[_T]] = None) -> Optional[_T]:
+    def find_first(
+        self, predicate: TypingOptional[Predicate[_T]] = None
+    ) -> Optional[_T]:  # type: ignore
         ...
