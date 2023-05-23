@@ -117,7 +117,9 @@ class IteratorStream(Stream[_T]):
 
         def _consumer(_t: _T, _it_copy: Container[Iterator[_T]]) -> None:
             consumer.accept(_t)
-            _it_copy.set(itertools.chain(typing.cast(Iterator[_T], _iter_copy_container.get()), (_t,)))
+            _it_copy.set(
+                itertools.chain(typing.cast(Iterator[_T], _iter_copy_container.get()), (_t,))
+            )
 
         self.for_each(
             Consumer.of(lambda _t: _consumer(_t, _iter_copy_container)),
