@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from abc import abstractmethod
 from typing import TypeVar, Generic, Callable, Any
 
 _T = TypeVar("_T")
@@ -15,6 +16,7 @@ class Consumer(Generic[_T]):
 
         return BasicConsumer()
 
+    @abstractmethod
     def accept(self, value: _T) -> None:
         pass
 
@@ -25,8 +27,8 @@ class Consumer(Generic[_T]):
 
         return Consumer.of(_impl)
 
-    def __call__(self, *args: _T, **kwargs: Any) -> None:
-        self.accept(args[0])
+    def __call__(self, t: _T, *args: Any, **kwargs: Any) -> None:
+        self.accept(t)
 
 
 class BiConsumer(Generic[_T, _U]):
