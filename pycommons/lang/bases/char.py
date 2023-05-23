@@ -16,7 +16,7 @@ class Char(int):
         Generates a new Char object based on the input provided to the method.
 
         Args:
-            c: A CharType object which can be a single character String, integer or another Char object
+            c: A CharType object which can be a single character String, integer or a Char object
 
         Raises:
             ValueError:
