@@ -1,4 +1,5 @@
 import itertools
+import typing
 from typing import TypeVar, Iterator, Optional
 
 from pycommons.lang.container.boolean import BooleanContainer
@@ -114,9 +115,9 @@ class IteratorStream(Stream[_T]):
     ) -> Stream[_T]:
         _iter_copy_container: Container[Iterator[_T]] = Container(iter(()))
 
-        def _consumer(_t, _it_copy: Container[Iterator[_T]]) -> None:
+        def _consumer(_t: _T, _it_copy: Container[Iterator[_T]]) -> None:
             consumer.accept(_t)
-            _it_copy.set(itertools.chain(_it_copy.get(), (_t,)))
+            _it_copy.set(itertools.chain(typing.cast(Iterator[_T], _iter_copy_container.get()), (_t,)))
 
         self.for_each(
             Consumer.of(lambda _t: _consumer(_t, _iter_copy_container)),
@@ -125,7 +126,7 @@ class IteratorStream(Stream[_T]):
             continue_before_accept=continue_before_accept,
         )
 
-        return IteratorStream(_iter_copy_container.get())
+        return IteratorStream(typing.cast(Iterator[_T], _iter_copy_container.get()))
 
     def count(self) -> int:
         stream_count: IntegerContainer = IntegerContainer()
