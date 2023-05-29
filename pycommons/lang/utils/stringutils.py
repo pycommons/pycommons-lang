@@ -10,8 +10,8 @@ from .utils import UtilityClass
 
 class StringUtils(UtilityClass):
     """
-    The StringUtils `UtilityClass` that holds the utility methods for string observation, manipulation,
-    conversion etc. This class is inspired by the
+    The StringUtils `UtilityClass` that holds the utility methods for string observation,
+    manipulation, conversion etc. This class is inspired by the
     [`StringUtils`](https://commons.apache.org/proper/commons-lang/apidocs/index.html)
     class in the Apache Commons Lang package. Provides `None` safe methods to perform operations on
     `str` object
