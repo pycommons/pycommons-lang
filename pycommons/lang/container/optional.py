@@ -8,7 +8,7 @@ from pycommons.lang.function.function import Function
 from pycommons.lang.function.predicate import Predicate
 from pycommons.lang.function.runnable import Runnable
 from pycommons.lang.function.supplier import Supplier
-from pycommons.lang.objectutils import ObjectUtils
+from pycommons.lang.utils.objectutils import ObjectUtils
 
 _T = TypeVar("_T", Any, None)
 _U = TypeVar("_U", Any, None)
@@ -30,22 +30,62 @@ class OptionalContainer(Generic[_T]):
         self._value = value
 
     def get(self) -> _T:
+        """
+        Gets the value in the container
+
+        Returns:
+            the value if present
+
+        Raises:
+            NoSuchElementError if the value is not present.
+
+        """
         if self._value is None:
             raise NoSuchElementError("No value present")
         return self._value
 
     def is_present(self) -> bool:
+        """
+        Returns True if a value is present in the container, False otherwise
+
+        Returns:
+            True if the container value is not None
+        """
         return self._value is not None
 
     def is_empty(self) -> bool:
+        """
+        Returns True if the container value is None, False otherwise
+
+        Returns:
+            True if the container value is None
+        """
         return not self.is_present()
 
     def if_present(self, consumer: Consumer[_T]) -> None:
+        """
+        Run a consumer if the value is present.
+
+        Args:
+            consumer: Consumer Lambda
+
+        Returns:
+            None
+        """
         ObjectUtils.require_not_none(consumer)
         if self.is_present():
             consumer.accept(self._value)
 
     def if_present_or_else(self, consumer: Consumer[_T], runnable: Runnable) -> None:
+        """
+        Runs a consumer if the value is present, else runs the runnable
+        Args:
+            consumer: Consumer function that runs when value is present
+            runnable: Runnable function that runs when value is None
+
+        Returns:
+            None
+        """
         ObjectUtils.require_not_none(consumer)
         if self.is_present():
             consumer.accept(self._value)

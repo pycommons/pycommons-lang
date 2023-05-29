@@ -3,7 +3,7 @@ from __future__ import annotations
 from abc import abstractmethod
 from typing import TypeVar, Generic, Callable, Any
 
-from pycommons.lang.objectutils import ObjectUtils
+from pycommons.lang.utils.objectutils import ObjectUtils
 
 _T = TypeVar("_T")
 

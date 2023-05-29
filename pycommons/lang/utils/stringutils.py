@@ -1,13 +1,25 @@
 import typing
 from typing import Optional, List
 
+from pycommons.lang.base.char import Char
+from pycommons.lang.function import Supplier
 from .arrayutils import ArrayUtils
-from .bases.char import Char
 from .charutils import CharUtils
-from .function import Supplier
+from .utils import UtilityClass
 
 
-class StringUtils:
+class StringUtils(UtilityClass):
+    """
+    The StringUtils `UtilityClass` that holds the utility methods for string observation, manipulation,
+    conversion etc. This class is inspired by the
+    [`StringUtils`](https://commons.apache.org/proper/commons-lang/apidocs/index.html)
+    class in the Apache Commons Lang package. Provides `None` safe methods to perform operations on
+    `str` object
+
+    References:
+        https://commons.apache.org/proper/commons-lang/apidocs/index.html
+    """
+
     EMPTY: str = ""
 
     @classmethod
