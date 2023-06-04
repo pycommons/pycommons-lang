@@ -1,0 +1,4 @@
+nav:
+    - stringutils: stringutils.md
+
+title: pycommons.lang.utils

@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from pycommons.lang.bases import Char
+from pycommons.lang.base import Char
 
 
 class CharTest(TestCase):

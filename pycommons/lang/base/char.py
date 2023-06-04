@@ -7,8 +7,14 @@ class Char(int):
     """
     Defines a class to store a single character. Inherits `int` indicating, the value of
     the character object holds the Unicode codepoint within the range (0, 65536). The class
-    mimics the methods provided by `str` like `isupper`, `isdigit` indicating the functionality
-    of the `Char` class is similar to that of a String.
+    mimics the methods provided by
+    [`str`](https://docs.python.org/3/library/stdtypes.html#string-methods) like
+    [`isupper`][pycommons.lang.base.char.Char.isupper],
+    [`isdigit`][pycommons.lang.base.char.Char.isdigit]
+    indicating the functionality of the `Char` class is similar to that of a String.
+
+    References:
+        https://docs.python.org/3/library/stdtypes.html#string-methods
     """
 
     def __new__(cls, c: CharType) -> Char:
@@ -71,7 +77,8 @@ class Char(int):
         Determines if the character is an uppercase letter, by converting the code point to
         str object.
 
-        Returns: True if the character is an uppercase letter, False otherwise
+        Returns:
+            True if the character is an uppercase letter, False otherwise
         """
         return chr(int(self)).isupper()
 
@@ -80,20 +87,68 @@ class Char(int):
         Determines if the character is a lowercase letter, by converting the code point to
         str object.
 
-        Returns: True if the character is a lowercase letter, False otherwise
+        Returns:
+            True if the character is a lowercase letter, False otherwise
         """
         return chr(int(self)).islower()
 
     def isalpha(self) -> bool:
+        """
+        Determines if the character is an alphabet, by converting the code point to str object.
+        Mimics the [isalpha](https://docs.python.org/3/library/stdtypes.html#str.isalpha) method
+        provided by str class in Python standard library.
+
+        Returns:
+            True if the character is an alphabet, False otherwise
+
+        References:
+            https://docs.python.org/3/library/stdtypes.html#str.isalpha
+        """
         return chr(int(self)).isalpha()
 
     def isalnum(self) -> bool:
+        """
+        Determines if the character is an alphabet or a digit,
+        by converting the code point to str object. Mimics the
+        [isalnum](https://docs.python.org/3/library/stdtypes.html#str.isalnum) method
+        provided by str class in Python standard library.
+
+        Returns:
+            True if the character is an alphabet or a digit, False otherwise
+
+        References:
+            https://docs.python.org/3/library/stdtypes.html#str.isalnum
+        """
         return chr(int(self)).isalnum()
 
     def isascii(self) -> bool:
+        """
+        Determines if the codepoint is in the range (0, 128), i.e. a valid ASCII character by
+        converting the code point to str object. ASCII characters have code
+        points in the range U+0000-U+007F. Mimics the
+        [isascii](https://docs.python.org/3/library/stdtypes.html#str.isascii) method
+        provided by str class of the Python standard library
+
+        Returns:
+            True if the character is a valid ASCII character, False otherwise
+
+        References:
+            https://docs.python.org/3/library/stdtypes.html#str.isascii
+        """
         return chr(int(self)).isascii()
 
     def isdigit(self) -> bool:
+        """
+        Determines if the character is a digit, by converting the code point to str object.
+        Mimics the [isascii](https://docs.python.org/3/library/stdtypes.html#str.isdigit) method
+        provided by str class of the Python standard library
+
+        Returns:
+            True if the character is a digit, False otherwise
+
+        References:
+            https://docs.python.org/3/library/stdtypes.html#str.isdigit
+        """
         return chr(int(self)).isdigit()
 
     def isspace(self) -> bool:
