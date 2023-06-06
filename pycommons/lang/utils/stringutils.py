@@ -23,6 +23,48 @@ class StringUtils(UtilityClass):
     EMPTY: str = ""
 
     @classmethod
+    def abbreviate(cls, char_sequence: Optional[str], abbrev_marker: Optional[str] = "...", offset: int = 0,
+                   max_width: int = -1):
+        if cls.is_not_empty(char_sequence) and cls.EMPTY == abbrev_marker and max_width > 0:
+            return char_sequence[:max_width]
+        elif cls.is_any_empty(char_sequence, abbrev_marker):
+            return char_sequence
+        else:
+            abbrev_marker_length = len(abbrev_marker)
+            min_abbrev_width = abbrev_marker_length + 1
+            min_abbrev_width_offset = abbrev_marker_length + abbrev_marker_length + 1
+            if max_width == -1:
+                max_width = len(char_sequence) - abbrev_marker_length
+
+            if max_width < min_abbrev_width:
+                raise ValueError(f"Minimum abbreviation width is {min_abbrev_width}")
+            else:
+                str_len = len(char_sequence)
+                if str_len <= max_width:
+                    return char_sequence
+                else:
+                    if offset > str_len:
+                        offset = str_len
+                    if str_len - offset < max_width - abbrev_marker_length:
+                        offset = str_len - (max_width - abbrev_marker_length)
+                    if offset <= abbrev_marker_length + 1:
+                        return char_sequence[:max_width - abbrev_marker_length] + abbrev_marker
+                    elif max_width < min_abbrev_width_offset:
+                        raise ValueError(f"Minimum abbreviation width with offset is {min_abbrev_width_offset}")
+                    else:
+                        return char_sequence[offset:offset + max_width - abbrev_marker_length] + abbrev_marker
+
+    @classmethod
+    def abbreviate_middle(cls, char_sequence: Optional[str], middle: Optional[str] = "...", length: int = 5):
+        if not cls.is_any_empty(char_sequence, middle) and len(char_sequence) > length >= len(middle) + 2:
+            target_string = length - len(middle)
+            start_offset = target_string // 2 + target_string % 2
+            end_offset = len(char_sequence) - target_string // 2
+            return char_sequence[:start_offset] + middle + char_sequence[end_offset:]
+        else:
+            return char_sequence
+
+    @classmethod
     def contains(cls, char_sequence: Optional[str], search_string: Optional[str]) -> bool:
         if char_sequence is not None and search_string is not None:
             search_length: int = len(search_string)

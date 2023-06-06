@@ -6,6 +6,7 @@ from typing import TypeVar, Generic, Callable, Any
 from pycommons.lang.utils.objectutils import ObjectUtils
 
 _T = TypeVar("_T")
+_U = TypeVar("_U")
 
 
 class Predicate(Generic[_T]):
@@ -34,6 +35,34 @@ class Predicate(Generic[_T]):
 
     def __call__(self, t: _T, *args: Any, **kwargs: Any) -> bool:
         return self.test(t)
+
+
+class BiPredicate(Generic[_T, _U]):
+    @classmethod
+    def of(cls, predicate: Callable[[_T, _U], bool]) -> BiPredicate[_T, _U]:
+        ObjectUtils.require_not_none(predicate)
+
+        class BasicBiPredicate(BiPredicate[_T]):
+            def test(self, t: _T, u: _U) -> bool:
+                return predicate(t, u)
+
+        return BasicBiPredicate()
+
+    @abstractmethod
+    def test(self, t: _T, u: _U) -> bool:
+        pass
+
+    def negate(self) -> BiPredicate[_T, _U]:
+        return self.of(lambda _t, _u: not self.test(_t, _u))
+
+    def do_and(self, predicate: BiPredicate[_T, _U]) -> BiPredicate[_T, _U]:
+        return self.of(lambda _t, _u: self.test(_t, _u) and predicate.test(_t, _u))
+
+    def do_or(self, predicate: BiPredicate[_T]) -> BiPredicate[_T]:
+        return self.of(lambda _t, _u: self.test(_t, _u) or predicate.test(_t, _u))
+
+    def __call__(self, t: _T, u: _U, *args: Any, **kwargs: Any) -> bool:
+        return self.test(t, u)
 
 
 class PassingPredicate(Predicate[_T]):
