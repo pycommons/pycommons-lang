@@ -42,7 +42,7 @@ class BiPredicate(Generic[_T, _U]):
     def of(cls, predicate: Callable[[_T, _U], bool]) -> BiPredicate[_T, _U]:
         ObjectUtils.require_not_none(predicate)
 
-        class BasicBiPredicate(BiPredicate[_T]):
+        class BasicBiPredicate(BiPredicate[_T, _U]):
             def test(self, t: _T, u: _U) -> bool:
                 return predicate(t, u)
 
@@ -58,7 +58,7 @@ class BiPredicate(Generic[_T, _U]):
     def do_and(self, predicate: BiPredicate[_T, _U]) -> BiPredicate[_T, _U]:
         return self.of(lambda _t, _u: self.test(_t, _u) and predicate.test(_t, _u))
 
-    def do_or(self, predicate: BiPredicate[_T]) -> BiPredicate[_T]:
+    def do_or(self, predicate: BiPredicate[_T, _U]) -> BiPredicate[_T, _U]:
         return self.of(lambda _t, _u: self.test(_t, _u) or predicate.test(_t, _u))
 
     def __call__(self, t: _T, u: _U, *args: Any, **kwargs: Any) -> bool:
