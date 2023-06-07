@@ -11,8 +11,10 @@ class TestData:
     message: Optional[str] = None
 
     def get_message(self):
-        return f"{self.message if self.message else 'TestCase'} " \
-               f"(data={self.data}, expected={self.expected})"
+        return (
+            f"{self.message if self.message else 'TestCase'} "
+            f"(data={self.data}, expected={self.expected})"
+        )
 
 
 def cases(testcases: List[TestData]):
