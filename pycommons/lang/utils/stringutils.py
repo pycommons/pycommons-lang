@@ -62,7 +62,7 @@ class StringUtils(UtilityClass):
 
         if max_width < min_abbrev_width_offset:
             raise ValueError(f"Minimum abbreviation width with offset is {min_abbrev_width_offset}")
-        return char_sequence[offset : offset + max_width - abbrev_marker_length] + abbrev_marker
+        return char_sequence[offset: offset + max_width - abbrev_marker_length] + abbrev_marker
 
     @classmethod
     def abbreviate_middle(
@@ -328,5 +328,8 @@ class StringUtils(UtilityClass):
         return False
 
     @classmethod
-    def to_character(cls, c: str) -> Optional[Char]:
-        return CharUtils.to_character(c)
+    def to_character(cls, c: Optional[str]) -> Optional[Char]:
+        if cls.is_empty(c):
+            return None
+
+        return CharUtils.to_character(typing.cast(str, c)[0])
