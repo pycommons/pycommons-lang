@@ -70,5 +70,5 @@ implicit_reexport = true
 test = "pytest"
 lint = "pylint pycommons/ tests/"
 black = "black ."
-mypy = "mypy --strict --config-file=mypy.ini pycommons/"
+mypy = "mypy --namespace-packages -p pycommons.lang --strict --config-file=mypy.ini"
 docs = "mkdocs serve"
