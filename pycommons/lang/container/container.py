@@ -14,11 +14,11 @@ class Container(Generic[_T], Supplier[Optional[_T]]):
     def __init__(self, t: Optional[_T] = None):
         self._object: Optional[_T] = t
 
-    def set(self, t: _T) -> None:
+    def set(self, t: Optional[_T]) -> None:
         self._object = t
 
     def set_and_get(self, t: Optional[_T]) -> Optional[_T]:
-        self._object = t
+        self.set(t)
         return self._object
 
     def get_and_set(self, t: Optional[_T]) -> Optional[_T]:
