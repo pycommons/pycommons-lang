@@ -1,11 +1,12 @@
 import typing
 from typing import Optional, List
 
-from pycommons.lang.base.char import Char
-from pycommons.lang.function import Supplier
+from pycommons.base.char import Char
+from pycommons.base.function import Supplier
+from pycommons.base.utils.utils import UtilityClass
+
 from .arrayutils import ArrayUtils
 from .charutils import CharUtils
-from .utils import UtilityClass
 
 
 class StringUtils(UtilityClass):
@@ -62,7 +63,7 @@ class StringUtils(UtilityClass):
 
         if max_width < min_abbrev_width_offset:
             raise ValueError(f"Minimum abbreviation width with offset is {min_abbrev_width_offset}")
-        return char_sequence[offset : offset + max_width - abbrev_marker_length] + abbrev_marker
+        return char_sequence[offset: offset + max_width - abbrev_marker_length] + abbrev_marker
 
     @classmethod
     def abbreviate_middle(

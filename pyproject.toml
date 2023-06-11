@@ -25,6 +25,7 @@ include = [
 [tool.poetry.dependencies]
 python = "^3.8"
 importlib_metadata = "*"
+pycommons-base = "0.0.5"
 
 [tool.poetry.dev-dependencies]
 mkdocs-material = ">7.0.0"

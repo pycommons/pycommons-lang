@@ -873,6 +873,21 @@ tomli = ">=1.2.2"
 poetry-plugin = ["poetry (>=1.0,<2.0)"]
 
 [[package]]
+name = "pycommons-base"
+version = "0.0.5"
+description = "Python Commons Base"
+optional = false
+python-versions = ">=3.8,<4.0"
+files = [
+    {file = "pycommons_base-0.0.5-py3-none-any.whl", hash = "sha256:43c8bb296a516b1dde2fe0e9272b3f1382a35ac3cf6cb1126c078e006186493f"},
+    {file = "pycommons_base-0.0.5.tar.gz", hash = "sha256:8e4038f057b48c295a5c7e084ce193a2ce3f94840f7f29cfa153df547ae0ee83"},
+]
+
+[package.dependencies]
+importlib_metadata = "*"
+typing_extensions = "4.6.3"
+
+[[package]]
 name = "pygments"
 version = "2.15.1"
 description = "Pygments is a syntax highlighting package written in Python."
@@ -1444,4 +1459,4 @@ testing = ["big-O", "flake8 (<5)", "jaraco.functools", "jaraco.itertools", "more
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.8"
-content-hash = "d597084e88ea7250a7248bc43a2583c0c27f67038c4aedd748ece8b75622e9ae"
+content-hash = "333b056992012c545ab828b2a575444c3e7f90dd22c5ed9e8ac0ae06523b938d"
