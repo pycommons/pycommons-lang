@@ -28,3 +28,6 @@ class BooleanContainer(Container[bool]):
 
     def get(self) -> bool:
         return typing.cast(bool, super().get())
+
+    def __bool__(self) -> bool:
+        return self.get()

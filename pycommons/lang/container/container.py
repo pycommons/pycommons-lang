@@ -26,6 +26,9 @@ class Container(Generic[_T], Supplier[Optional[_T]]):
         self._object = t
         return old_object
 
+    def __contains__(self, item: _T) -> bool:
+        return self._object == item
+
     @classmethod
     def with_none(cls) -> Container[Any]:
         return cls()
