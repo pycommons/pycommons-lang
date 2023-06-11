@@ -1,11 +1,12 @@
 import typing
 from typing import Optional, List
 
-from pycommons.lang.base.char import Char
-from pycommons.lang.function import Supplier
+from pycommons.base.char import Char
+from pycommons.base.function import Supplier
+from pycommons.base.utils.utils import UtilityClass
+
 from .arrayutils import ArrayUtils
 from .charutils import CharUtils
-from .utils import UtilityClass
 
 
 class StringUtils(UtilityClass):

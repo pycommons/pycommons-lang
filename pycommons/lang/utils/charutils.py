@@ -1,7 +1,7 @@
 import string
 from typing import Optional, Set
 
-from pycommons.lang.base.char import Char, CharType
+from pycommons.base.char import Char, CharType
 
 
 class CharUtils:
