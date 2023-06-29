@@ -15,7 +15,7 @@ __all__ = [
     "ArrayUtils",
     "CharUtils",
     "ExceptionUtils",
-    "StringUtils"
+    "StringUtils",
 ]
 
 __author__ = "Shashank Sharma"
