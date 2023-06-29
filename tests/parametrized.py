@@ -1,6 +1,6 @@
 import dataclasses
 import functools
-from typing import Any, Optional, List
+from typing import Any, Optional
 
 
 @dataclasses.dataclass
@@ -17,7 +17,7 @@ class TestData:
         )
 
 
-def cases(testcases: List[TestData]):
+def cases(*testcases: TestData):
     def decorator(f):
         @functools.wraps(f)
         def wrapped(self):
