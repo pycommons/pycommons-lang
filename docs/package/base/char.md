@@ -1,1 +1,0 @@
-::: pycommons.lang.base.char
