@@ -1,7 +1,7 @@
 import traceback
 from contextlib import AbstractContextManager
 from types import TracebackType
-from typing import TypeVar, Type, Optional
+from typing import TypeVar, Type, Optional, Union, Generic
 
 from pycommons.base.utils.utils import UtilityClass
 
@@ -14,17 +14,17 @@ class ExceptionUtils(UtilityClass):
         return exception.__cause__
 
     @classmethod
-    def ignored(cls, exception_type: Type[_E] = Exception) -> "IgnoredExceptionContext":
+    def ignored(cls, exception_type: Type[_E] = Exception) -> "IgnoredExceptionContext[_E]":
         return IgnoredExceptionContext(exception_type)
 
 
-class IgnoredExceptionContext(AbstractContextManager):
+class IgnoredExceptionContext(AbstractContextManager, Generic[_E]):  # type: ignore
     def __init__(self, exception_type: Type[BaseException]):
         self._expected_exc_type: Type[BaseException] = exception_type
-        self._exception: Optional[_E] = None
+        self._exception: Optional[Union[_E, BaseException]] = None
 
     @property
-    def exception(self) -> Optional[_E]:
+    def exception(self) -> Optional[Union[_E, BaseException]]:
         return self._exception
 
     def __exit__(
@@ -33,7 +33,7 @@ class IgnoredExceptionContext(AbstractContextManager):
         __exc_value: Optional[BaseException],
         __traceback: Optional[TracebackType],
     ) -> Optional[bool]:
-        self._exception: Optional[BaseException] = __exc_value
+        self._exception = __exc_value
         if (
             __exc_type is not None
             and (
