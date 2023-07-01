@@ -59,7 +59,22 @@ theme:
   language: en
   base_url: https://github.com/pycommons/pycommons-lang
   palette:
-    primary: 'white'
+    # Palette toggle for light mode
+    - scheme: default
+      primary: blue grey
+      accent: red
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+
+    # Palette toggle for dark mode
+    - scheme: slate
+      primary: blue grey
+      accent: red
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+
 # Footer
 extra:
   config_override: false

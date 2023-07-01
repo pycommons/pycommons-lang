@@ -10,8 +10,8 @@ _E = TypeVar("_E", Exception, BaseException)
 
 class ExceptionUtils(UtilityClass):
     @classmethod
-    def get_cause(cls, exception: _E) -> Optional[BaseException]:
-        return exception.__cause__
+    def get_cause(cls, exception: Optional[_E]) -> Optional[BaseException]:
+        return exception.__cause__ if exception is not None else None
 
     @classmethod
     def ignored(cls, exception_type: Type[_E] = Exception) -> "IgnoredExceptionContext[_E]":
@@ -36,11 +36,11 @@ class IgnoredExceptionContext(AbstractContextManager, Generic[_E]):  # type: ign
         self._exception = __exc_value
         if (
             __exc_type is not None
+            and __traceback is not None
             and (
                 __exc_type == self._expected_exc_type
                 or issubclass(__exc_type, self._expected_exc_type)
             )
-            and __traceback is not None
         ):
             traceback.clear_frames(__traceback)
             return True
