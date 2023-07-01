@@ -4,7 +4,6 @@ from pycommons.lang.exception.exception import CommonsException
 
 
 class TestCommonsException(TestCase):
-
     @staticmethod
     def _test(ex, _r_e):
         try:
