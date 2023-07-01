@@ -25,7 +25,7 @@ include = [
 [tool.poetry.dependencies]
 python = "^3.8"
 importlib_metadata = "*"
-pycommons-base = "0.0.5"
+pycommons-base = "0.0.6"
 
 [tool.poetry.dev-dependencies]
 mkdocs-material = ">7.0.0"
@@ -57,7 +57,7 @@ max-locals = 20
 min-public-method = 0
 
 [tool.pytest.ini_options]
-addopts = "--cov=pycommons --cov-branch --cov-report term-missing --cov-report xml -vv --color=yes --cov-fail-under 40"
+addopts = "--cov=pycommons --cov-branch --cov-report term-missing --cov-report xml -vv --color=yes --cov-fail-under 50"
 python_files = "tests.py test_*.py *_tests.py *Test.py"
 
 [build-system]

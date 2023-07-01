@@ -11,14 +11,13 @@ from .charutils import CharUtils
 
 class StringUtils(UtilityClass):
     """
-    The StringUtils `UtilityClass` that holds the utility methods for string observation,
-    manipulation, conversion etc. This class is inspired by the
-    [`StringUtils`](https://commons.apache.org/proper/commons-lang/apidocs/index.html)
-    class in the Apache Commons Lang package. Provides `None` safe methods to perform operations on
-    `str` object
+    The StringUtils holds the utility methods for string observation,
+    manipulation, conversion etc. This class is inspired by the `StringUtils`
+    class in the Apache Commons Lang package. Provides `None` safe methods
+    to perform operations on `str` object
 
     References:
-        https://commons.apache.org/proper/commons-lang/apidocs/index.html
+        https://commons.apache.org/proper/commons-lang/apidocs/org/apache/commons/lang3/StringUtils.html
     """
 
     EMPTY: str = ""
@@ -330,7 +329,29 @@ class StringUtils(UtilityClass):
 
     @classmethod
     def to_character(cls, c: Optional[str]) -> Optional[Char]:
+        """
+        `None` safe conversion of a character to `pycommons.base.Character
+        Args:
+            c:
+
+        Returns:
+
+        """
         if cls.is_empty(c):
             return None
 
         return CharUtils.to_character(typing.cast(str, c)[0])
+
+    @classmethod
+    def default_string(cls, char_sequence: Optional[str], default_string: str = EMPTY) -> str:
+        """
+        Returns the default string if the passed string is `None`.
+
+        Args:
+            char_sequence: The string
+            default_string: Default string to be returned when `char_sequence` is None
+
+        Returns:
+            The `char_sequence` if it's not None, else the default string
+        """
+        return char_sequence if char_sequence is not None else default_string

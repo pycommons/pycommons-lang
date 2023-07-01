@@ -5,7 +5,6 @@ from importlib_metadata import PackageNotFoundError, version
 
 from .arrayutils import ArrayUtils
 from .charutils import CharUtils
-from .exceptionutils import ExceptionUtils
 from .stringutils import StringUtils
 
 __all__ = [
@@ -14,7 +13,6 @@ __all__ = [
     "__version__",
     "ArrayUtils",
     "CharUtils",
-    "ExceptionUtils",
     "StringUtils",
 ]
 

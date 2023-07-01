@@ -1,4 +1,5 @@
 nav:
     - ...
+    - stringutils: stringutils.md
 
 title: Package Documentation
