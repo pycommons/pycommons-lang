@@ -2,7 +2,7 @@ from typing import ClassVar, Optional, overload, Union
 
 from pycommons.base.utils import UtilityClass, ObjectUtils
 
-from pycommons.lang import ArrayUtils
+from .arrayutils import ArrayUtils
 
 
 class BooleanUtils(UtilityClass):
