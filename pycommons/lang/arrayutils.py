@@ -1,7 +1,6 @@
 from typing import Sized, Optional, TypeVar
 
-from pycommons.base.utils import ObjectUtils
-
+from pycommons.lang import ObjectUtils
 from pycommons.lang.exception.exceptionutils import ExceptionUtils
 
 _E = TypeVar("_E", Exception, RuntimeError)
