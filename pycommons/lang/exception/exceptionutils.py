@@ -1,7 +1,7 @@
 import traceback
 from contextlib import AbstractContextManager
 from types import TracebackType
-from typing import TypeVar, Type, Optional, Union, Generic
+from typing import TypeVar, Type, Optional, Union, Generic, NoReturn
 
 from pycommons.base.utils.utils import UtilityClass
 
@@ -9,6 +9,10 @@ _E = TypeVar("_E", Exception, BaseException)
 
 
 class ExceptionUtils(UtilityClass):
+    @classmethod
+    def raise_error(cls, exception: _E) -> NoReturn:
+        raise exception
+
     @classmethod
     def get_cause(cls, exception: Optional[_E]) -> Optional[BaseException]:
         return exception.__cause__ if exception is not None else None

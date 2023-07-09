@@ -1,4 +1,10 @@
-from typing import Sized, Optional
+from typing import Sized, Optional, TypeVar
+
+from pycommons.base.utils import ObjectUtils
+
+from pycommons.lang.exception.exceptionutils import ExceptionUtils
+
+_E = TypeVar("_E", Exception, RuntimeError)
 
 
 class ArrayUtils:
@@ -13,3 +19,10 @@ class ArrayUtils:
     @classmethod
     def is_not_empty(cls, arr: Optional[Sized]) -> bool:
         return not cls.is_empty(arr)
+
+    @classmethod
+    def require_not_empty(cls, arr: Optional[Sized], e: Optional[_E] = None) -> None:
+        if cls.is_empty(arr):
+            ExceptionUtils.raise_error(
+                ObjectUtils.default_if_none(e, ValueError("Sized object cannot be empty"))
+            )

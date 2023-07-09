@@ -4,6 +4,7 @@ from __future__ import annotations
 from importlib_metadata import PackageNotFoundError, version
 
 from .arrayutils import ArrayUtils
+from .booleanutils import BooleanUtils
 from .charutils import CharUtils
 from .stringutils import StringUtils
 
@@ -13,7 +14,7 @@ __all__ = [
     "__version__",
     "ArrayUtils",
     "CharUtils",
-    "StringUtils",
+    "BooleanUtils",
 ]
 
 __author__ = "Shashank Sharma"
