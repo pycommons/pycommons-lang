@@ -2,34 +2,92 @@ from typing import ClassVar, Optional, overload, Union
 
 from pycommons.base.utils import UtilityClass, ObjectUtils
 
+from pycommons.lang import ArrayUtils
+
 
 class BooleanUtils(UtilityClass):
+    """
+    BooleanUtils class that provides helper methods to operate on boolean values that mirrors the
+    features provided by the Apache Commons Lang's BooleanUtils class
+
+    References:
+        https://commons.apache.org/proper/commons-lang/apidocs/org/apache/commons/lang3/BooleanUtils.html
+    """
+
     TRUE: ClassVar[str] = str(True).lower()
+    """
+    The "true" string
+    """
     FALSE: ClassVar[str] = str(False).lower()
+    """
+    The "false" string
+    """
 
     T: ClassVar[str] = "t"
+    """
+    The "t" string
+    """
     F: ClassVar[str] = "f"
+    """
+    The "f" string
+    """
 
     YES: ClassVar[str] = "yes"
+    """
+    The "yes" string
+    """
     NO: ClassVar[str] = "no"
+    """
+    The "no" string
+    """
 
     Y: ClassVar[str] = "y"
+    """
+    The "y" string
+    """
     N: ClassVar[str] = "n"
+    """
+    The "n" string
+    """
 
     OFF: ClassVar[str] = "off"
+    """
+    The "off" string
+    """
     ON: ClassVar[str] = "on"
+    """
+    The "on" string
+    """
 
     @classmethod
     def and_args(cls, *args: bool) -> bool:
+        """
+        Performs `and` operation on all the arguments and returns the result
+        Args:
+            *args: Boolean Arguments
+
+        Returns:
+            True if all the arguments are True, False otherwise
+        """
+        ArrayUtils.require_not_empty(args)
         for flag in args:
             ObjectUtils.require_not_none(flag)
-            if not flag:
+            if cls.is_not_true(flag):
                 return False
 
         return True
 
     @classmethod
     def or_args(cls, *args: bool) -> bool:
+        """
+        Performs `or` operation on all the arguments and returns the result
+        Args:
+            *args: Boolean Arguments
+
+        Returns:
+            True if any of the arguments are True, False otherwise
+        """
+        ArrayUtils.require_not_empty(args)
         for flag in args:
             ObjectUtils.require_not_none(flag)
             if flag:
@@ -48,22 +106,64 @@ class BooleanUtils(UtilityClass):
 
     @classmethod
     def is_false(cls, flag: Optional[bool]) -> bool:
+        """
+        Return if an optional flag is `False` by handling `None` as False
+        Args:
+            flag: A boolean object or None
+
+        Returns:
+            True if the flag is False, False otherwise
+        """
         return flag is False
 
     @classmethod
     def is_not_false(cls, flag: Optional[bool]) -> bool:
+        """
+        Negation of [`is_false`][pycommons.lang.booleanutils.BooleanUtils.is_false]
+        method by handling `None` as False
+        Args:
+            flag: A boolean flag or None
+
+        Returns:
+            True if the flag is not False, False otherwise
+        """
         return flag is not False
 
     @classmethod
     def is_true(cls, flag: Optional[bool]) -> bool:
+        """
+        Return if an optional flag is `True` by handling `None` as False
+        Args:
+            flag: A boolean object or None
+
+        Returns:
+            True if the flag is True, False otherwise
+        """
         return flag is True
 
     @classmethod
     def is_not_true(cls, flag: Optional[bool]) -> bool:
+        """
+        Negation of [`is_false`][pycommons.lang.booleanutils.BooleanUtils.is_true]
+        method by handling `None` as False
+        Args:
+            flag: A boolean flag or None
+
+        Returns:
+            True if the flag is not True, False otherwise
+        """
         return flag is not True
 
     @classmethod
     def negate(cls, flag: Optional[bool]) -> Optional[bool]:
+        """
+        Negate a boolean by returning `None` for `None`.
+        Args:
+            flag: A boolean flag or None
+
+        Returns:
+            True if False, False if True, None if None
+        """
         if flag is None:
             return None
         return not flag

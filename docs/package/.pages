@@ -1,5 +1,6 @@
 nav:
     - ...
     - stringutils: stringutils.md
+    - booleanutils: booleanutils.md
 
 title: Package Documentation
