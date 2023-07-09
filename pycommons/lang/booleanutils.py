@@ -8,7 +8,7 @@ class BooleanUtils(UtilityClass):
     FALSE: ClassVar[str] = str(False).lower()
 
     T: ClassVar[str] = "t"
-    F: ClassVar[bool] = "f"
+    F: ClassVar[str] = "f"
 
     YES: ClassVar[str] = "yes"
     NO: ClassVar[str] = "no"
@@ -75,16 +75,16 @@ class BooleanUtils(UtilityClass):
 
     @classmethod
     @overload
-    def to_boolean(cls, value: int) -> bool:
+    def to_boolean(cls, x: int) -> bool:
         ...
 
     @classmethod
     @overload
-    def to_boolean(cls, value: Optional[str]) -> bool:
+    def to_boolean(cls, x: Optional[str]) -> bool:
         ...
 
     @classmethod
-    def to_boolean(cls, x) -> bool:
+    def to_boolean(cls, x: Union[int, str, bool, None]) -> bool:
         if x is None:
             return False
 
@@ -96,23 +96,33 @@ class BooleanUtils(UtilityClass):
 
         if isinstance(x, str):
             _x = x.lower()
-            return cls.or_args(_x == cls.TRUE, _x == cls.T, _x == cls.Y, _x == cls.YES, _x == cls.ON)
+            return cls.or_args(
+                _x == cls.TRUE, _x == cls.T, _x == cls.Y, _x == cls.YES, _x == cls.ON
+            )
+
+        raise ValueError("Unable to convert the value to boolean")
 
     @classmethod
     @overload
-    def parse_bool(cls, value: Optional[int], true_value: Optional[int],
-                   false_value: Optional[int]):
+    def parse_bool(
+        cls, value: Optional[int], true_value: Optional[int], false_value: Optional[int]
+    ) -> bool:
         ...
 
     @classmethod
     @overload
-    def parse_bool(cls, value: Optional[str], true_value: Optional[str],
-                   false_value: Optional[str]):
+    def parse_bool(
+        cls, value: Optional[str], true_value: Optional[str], false_value: Optional[str]
+    ) -> bool:
         ...
 
     @classmethod
-    def parse_bool(cls, value: Optional[Union[int, str]], true_value: Optional[Union[int, str]],
-                   false_value: Optional[Union[int, str]]) -> bool:
+    def parse_bool(
+        cls,
+        value: Optional[Union[int, str]],
+        true_value: Optional[Union[int, str]],
+        false_value: Optional[Union[int, str]],
+    ) -> bool:
         if value == true_value:
             return True
 
@@ -130,19 +140,34 @@ class BooleanUtils(UtilityClass):
 
     @classmethod
     @overload
-    def to_bool_object(cls, value: Optional[Union[int]], true_value: Optional[Union[int]],
-                       false_value: Optional[Union[int]], none_value: Optional[Union[int]]) -> Optional[bool]:
+    def to_bool_object(
+        cls,
+        value: Optional[Union[int]],
+        true_value: Optional[Union[int]],
+        false_value: Optional[Union[int]],
+        none_value: Optional[Union[int]],
+    ) -> Optional[bool]:
         ...
 
     @classmethod
     @overload
-    def to_bool_object(cls, value: Optional[Union[str]], true_value: Optional[Union[str]],
-                       false_value: Optional[Union[str]], none_value: Optional[Union[str]]) -> Optional[bool]:
+    def to_bool_object(
+        cls,
+        value: Optional[Union[str]],
+        true_value: Optional[Union[str]],
+        false_value: Optional[Union[str]],
+        none_value: Optional[Union[str]],
+    ) -> Optional[bool]:
         ...
 
     @classmethod
-    def to_bool_object(cls, value: Optional[Union[int, str]], true_value: Optional[Union[int, str]],
-                       false_value: Optional[Union[int, str]], none_value: Optional[Union[int, str]]) -> Optional[bool]:
+    def to_bool_object(
+        cls,
+        value: Optional[Union[int, str]],
+        true_value: Optional[Union[int, str]],
+        false_value: Optional[Union[int, str]],
+        none_value: Optional[Union[int, str]],
+    ) -> Optional[bool]:
         if value == true_value:
             return True
 
@@ -156,7 +181,7 @@ class BooleanUtils(UtilityClass):
 
     @classmethod
     @overload
-    def to_boolean_object(cls, x: Optional[bool]) -> Optional[bool]:
+    def to_boolean_object(cls, value: Optional[bool]) -> Optional[bool]:
         ...
 
     @classmethod
@@ -170,42 +195,57 @@ class BooleanUtils(UtilityClass):
         ...
 
     @classmethod
-    def to_boolean_object(cls, flag) -> Optional[bool]:
-        if flag is None:
+    def to_boolean_object(cls, value: Union[str, bool, int, None]) -> Optional[bool]:
+        if value is None:
             return None
 
-        if isinstance(flag, bool):
-            return flag
+        if isinstance(value, bool):
+            return value
 
-        if isinstance(flag, int):
-            return flag != 0
+        if isinstance(value, int):
+            return value != 0
 
-        if isinstance(flag, str):
-            _flag = flag.lower()
-            if cls.or_args(_flag == cls.TRUE, _flag == cls.T, _flag == cls.Y, _flag == cls.YES, _flag == cls.ON):
+        if isinstance(value, str):
+            _flag = value.lower()
+            if cls.or_args(
+                _flag == cls.TRUE, _flag == cls.T, _flag == cls.Y, _flag == cls.YES, _flag == cls.ON
+            ):
                 return True
 
-            if cls.or_args(_flag == cls.FALSE, _flag == cls.F, _flag == cls.N, _flag == cls.NO, _flag == cls.OFF):
+            if cls.or_args(
+                _flag == cls.FALSE,
+                _flag == cls.F,
+                _flag == cls.N,
+                _flag == cls.NO,
+                _flag == cls.OFF,
+            ):
                 return False
 
             return None
+
+        raise ValueError("Unable to parse the argument to boolean")
 
     @classmethod
     def to_int(cls, flag: bool, true_value: int = 1, false_value: int = 0) -> int:
         return true_value if flag else false_value
 
     @classmethod
-    def to_int_from_boolean_object(cls, flag: Optional[bool], true_value: int, false_value: int,
-                                   none_value: int) -> int:
+    def to_int_from_boolean_object(
+        cls, flag: Optional[bool], true_value: int, false_value: int, none_value: int
+    ) -> int:
         if flag is None:
             return none_value
 
         return cls.to_int(flag, true_value, false_value)
 
     @classmethod
-    def to_int_object_from_boolean_object(cls, flag: Optional[bool], true_value: Optional[int],
-                                          false_value: Optional[int],
-                                          none_value: Optional[int]) -> int:
+    def to_int_object_from_boolean_object(
+        cls,
+        flag: Optional[bool],
+        true_value: Optional[int],
+        false_value: Optional[int],
+        none_value: Optional[int],
+    ) -> Optional[int]:
         if flag is None:
             return none_value
 
@@ -216,17 +256,22 @@ class BooleanUtils(UtilityClass):
         return true_value if flag else false_value
 
     @classmethod
-    def to_str_from_boolean_object(cls, flag: Optional[bool], true_value: str, false_value: str,
-                                   none_value: str) -> str:
+    def to_str_from_boolean_object(
+        cls, flag: Optional[bool], true_value: str, false_value: str, none_value: str
+    ) -> str:
         if flag is None:
             return none_value
 
         return cls.to_str(flag, true_value, false_value)
 
     @classmethod
-    def to_str_object_from_boolean_object(cls, flag: Optional[bool], true_value: Optional[str],
-                                          false_value: Optional[str],
-                                          none_value: Optional[str]) -> str:
+    def to_str_object_from_boolean_object(
+        cls,
+        flag: Optional[bool],
+        true_value: Optional[str],
+        false_value: Optional[str],
+        none_value: Optional[str],
+    ) -> Optional[str]:
         if flag is None:
             return none_value
 
