@@ -43,8 +43,7 @@ class Pair(ABC, Generic[_L, _R]):
         return self.right
 
     @abstractmethod
-    def __getitem__(self, item: Any) -> Any:
-        ...
+    def __getitem__(self, item: Any) -> Any:  ...  # pragma: no cover
 
     def __str__(self) -> str:
         return self.to_string("({0}, {1})")

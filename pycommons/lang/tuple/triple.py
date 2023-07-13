@@ -37,7 +37,7 @@ class Triple(ABC, Generic[_L, _M, _R]):
         return self.right
 
     @abstractmethod
-    def __getitem__(self, item: Any) -> Any:
+    def __getitem__(self, item: Any) -> Any:  # pragma: no cover
         ...
 
     def __str__(self) -> str:
@@ -76,7 +76,7 @@ class MutableTriple(UserList, Triple[_L, _M, _R], Generic[_L, _M, _R]):  # type:
 
     @middle.setter
     def middle(self, middle: _M) -> None:
-        self[0] = middle
+        self[1] = middle
 
     @property
     def right(self) -> _R:
@@ -84,7 +84,7 @@ class MutableTriple(UserList, Triple[_L, _M, _R], Generic[_L, _M, _R]):  # type:
 
     @right.setter
     def right(self, right: _R) -> None:
-        self[0] = right
+        self[2] = right
 
     def set_left(self, left: _L) -> None:
         self.left = left
