@@ -4,7 +4,6 @@ from pycommons.lang.tuple import Triple, MutableTriple
 
 
 class TestImmutableTriple(TestCase):
-
     def test_triple_methods(self):
         pair: Triple[int, int] = Triple.of(1, 5, 6)
         self.assertEqual(1, pair.left)
@@ -21,7 +20,6 @@ class TestImmutableTriple(TestCase):
 
 
 class TestMutableTriple(TestCase):
-
     def test_triple_methods(self):
         pair: MutableTriple[int, int] = MutableTriple(1, 5, 6)
         self.assertEqual(1, pair.left)

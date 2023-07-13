@@ -4,7 +4,6 @@ from pycommons.lang.tuple import Pair, MutablePair
 
 
 class TestImmutablePair(TestCase):
-
     def test_pair_methods(self):
         pair: Pair[int, int] = Pair.of(1, 6)
         self.assertEqual(1, pair.left)
@@ -20,7 +19,6 @@ class TestImmutablePair(TestCase):
 
 
 class TestMutablePair(TestCase):
-
     def test_pair_methods(self):
         pair: MutablePair[int, int] = MutablePair(1, 6)
         self.assertEqual(1, pair.left)
